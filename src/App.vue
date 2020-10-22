@@ -1,11 +1,26 @@
 <template>
   <div id="app" class="container">
-    <NxJsonForm :schema="schema" v-model="form" />
+    <NxJsonForm
+      :schema="schema"
+      v-model="form"
+      :disable-collapse="disableCollapse"
+      :disable-edit-json="disableEditJson"
+      :disable-properties="disableProperties"
+    />
 
     <button @click="setSchemaA">Schema A</button>
     <button @click="setSchemaB">Schema B</button>
     <button @click="setSchemaAValue">Schema A Value</button>
     <button @click="setSchemaBValue">Schema B Value</button>
+    <button @click="disableCollapse = !disableCollapse">
+      Toggle disableCollapse
+    </button>
+    <button @click="disableEditJson = !disableEditJson">
+      Toggle disableEditJson
+    </button>
+    <button @click="disableProperties = !disableProperties">
+      Toggle disableProperties
+    </button>
   </div>
 </template>
 
@@ -21,6 +36,9 @@ export default {
     return {
       schema: {},
       form: {},
+      disableCollapse: true,
+      disableEditJson: true,
+      disableProperties: true,
     };
   },
   methods: {
