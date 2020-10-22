@@ -1,6 +1,5 @@
 <template>
-  <div id="app">
-    {{ form }}
+  <div id="app" class="container">
     <NxJsonForm :schema="schema" v-model="form" />
 
     <button @click="setSchemaA">Schema A</button>
@@ -12,6 +11,7 @@
 
 <script>
 import NxJsonForm from "@/components/nx-json-form/NxJsonForm";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default {
   components: {

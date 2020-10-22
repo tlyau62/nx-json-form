@@ -14,7 +14,10 @@ export default {
     };
   },
   mounted() {
-    this.editor = new JSONEditor(this.$el, { schema: this.schema });
+    this.editor = new JSONEditor(this.$el, {
+      schema: this.schema,
+      theme: "bootstrap4",
+    });
 
     this.editor.on("change", () => {
       this.$emit("input", this.editor.getValue());
