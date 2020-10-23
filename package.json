@@ -1,7 +1,6 @@
 {
-  "name": "nx-json-editor",
+  "name": "nx-json-form",
   "version": "0.1.0",
-  "private": true,
   "main": "./dist/nx-json-editor.umd.min.js",
   "scripts": {
     "serve": "vue-cli-service serve",
