@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="container">
-     <NxJsonForm
+    <NxJsonForm
       :schema="schema"
       v-model="form"
       :disable-collapse="disableCollapse"
@@ -9,7 +9,6 @@
       :disable-title="disableTitle"
     />
 
-   
     <button @click="setSchemaA">Schema A</button>
     <button @click="setSchemaB">Schema B</button>
     <button @click="setSchemaAValue">Schema A Value</button>
@@ -23,9 +22,7 @@
     <button @click="disableProperties = !disableProperties">
       Toggle disableProperties
     </button>
-    <button @click="disableTitle = !disableTitle">
-      Hide Title
-    </button>
+    <button @click="disableTitle = !disableTitle">Hide Title</button>
   </div>
 </template>
 
