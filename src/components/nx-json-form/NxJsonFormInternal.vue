@@ -4,6 +4,7 @@
 
 <script>
 import { JSONEditor } from "@json-editor/json-editor";
+import $ from "jquery";
 
 export default {
   name: "NxJsonFormInternal",
@@ -26,6 +27,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    disableTitle: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {};
@@ -41,13 +46,14 @@ export default {
       disable_collapse: this.disableCollapse,
       disable_edit_json: this.disableEditJson,
       disable_properties: this.disableProperties,
+      disable_title: this.disableTitle,
     });
 
     this.editor.on("change", () => {
       this.$emit("input", this.editor.getValue());
     });
 
-    this.editor.setValue(this.value);
+    this.toggleTitle(this.disableTitle);
   },
   watch: {
     schema() {
@@ -66,6 +72,17 @@ export default {
     },
     disableProperties() {
       this.$emit("refresh");
+    },
+    disableTitle(val) {
+      this.toggleTitle(val);
+    },
+  },
+  methods: {
+    toggleTitle(val) {
+      $(this.$el)
+        .find(".je-object__title label")
+        .first()
+        [val ? "hide" : "show"]();
     },
   },
   beforeDestroy() {
