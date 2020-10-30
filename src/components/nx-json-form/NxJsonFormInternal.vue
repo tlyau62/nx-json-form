@@ -33,7 +33,9 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      editor: null,
+    };
   },
   mounted() {
     if (Object.keys(this.schema).length === 0) {
@@ -48,14 +50,17 @@ export default {
       disable_properties: this.disableProperties,
       disable_title: this.disableTitle,
     });
-
-    this.editor.on("change", () => {
-      this.$emit("input", this.editor.getValue());
-    });
-
-    this.toggleTitle(this.disableTitle);
   },
   watch: {
+    editor(editor) {
+      if (this.editor) {
+        this.editor.setValue(this.value);
+        this.editor.on("change", () => {
+          this.$emit("input", this.editor.getValue());
+        });
+        this.toggleTitle(this.disableTitle);
+      }
+    },
     schema() {
       this.$emit("refresh");
     },
@@ -93,5 +98,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

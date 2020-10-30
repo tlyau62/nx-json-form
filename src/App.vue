@@ -157,25 +157,22 @@ export default {
     setSchemaB() {
       this.schema = {
         type: "object",
-        required: ["name", "age", "favorite_color"],
+        // required: ["name", "age", "favorite_color"],
         properties: {
           name: {
-            type: "string",
+            type: ["string", "null"],
             description: "First and Last name",
             minLength: 4,
-            default: "Jeremy Dorn",
           },
           age: {
-            type: "integer",
-            default: 25,
+            type: ["integer", "null"],
             minimum: 18,
             maximum: 99,
           },
           favorite_color: {
-            type: "string",
+            type: ["string", "null"],
             format: "color",
             title: "favorite color",
-            default: "#ffa500",
           },
         },
       };
