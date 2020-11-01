@@ -1,5 +1,12 @@
 <template>
   <div id="app" class="container">
+    <div>
+      <h4>Form value</h4>
+      <div>
+        {{ form }}
+      </div>
+    </div>
+
     <NxJsonForm
       :schema="schema"
       v-model="form"
@@ -162,7 +169,7 @@ export default {
           name: {
             type: ["string", "null"],
             description: "First and Last name",
-            minLength: 4,
+            minLength: 1,
           },
           age: {
             type: ["integer", "null"],

@@ -5,6 +5,7 @@
 <script>
 import { JSONEditor } from "@json-editor/json-editor";
 import $ from "jquery";
+import _ from "lodash";
 
 export default {
   name: "NxJsonFormInternal",
@@ -54,10 +55,10 @@ export default {
   watch: {
     editor(editor) {
       if (this.editor) {
-        this.editor.setValue(this.value);
         this.editor.on("change", () => {
           this.$emit("input", this.editor.getValue());
         });
+        this.setEditorValue(this.value);
         this.toggleTitle(this.disableTitle);
       }
     },
@@ -66,7 +67,7 @@ export default {
     },
     value(value) {
       if (this.editor) {
-        this.editor.setValue(value);
+        this.setEditorValue(value);
       }
     },
     disableCollapse() {
@@ -89,11 +90,40 @@ export default {
         .first()
         [val ? "hide" : "show"]();
     },
+    setEditorValue(value) {
+      const { editor } = this;
+      const form = editor.getValue();
+      const assigned = helper.cloneAndAssign(form, value);
+      const errors = editor.validate(assigned);
+
+      if (errors.length) {
+        throw new Error("Validation fail: " + JSON.stringify(errors));
+      }
+
+      editor.setValue(assigned);
+    },
   },
   beforeDestroy() {
     if (this.editor) {
       this.editor.destroy();
     }
+  },
+};
+
+const helper = {
+  cloneAndAssign(object, sources) {
+    const deleted = {};
+    const assigned = _.assignWith(
+      _.cloneDeep(object),
+      sources,
+      (objValue, srcValue) => {
+        if (objValue === undefined) {
+          return deleted;
+        }
+      }
+    );
+
+    return _.omitBy(assigned, (val) => val === deleted);
   },
 };
 </script>
