@@ -36,6 +36,7 @@ export default {
   data() {
     return {
       editor: null,
+      editorOriginalValue: {},
     };
   },
   mounted() {
@@ -56,8 +57,9 @@ export default {
     editor(editor) {
       if (this.editor) {
         this.editor.on("change", () => {
-          this.$emit("input", this.editor.getValue());
+          this.$emit("input", this.editor.getValue()); // field changes value
         });
+        this.editorOriginalValue = this.editor.getValue();
         this.setEditorValue(this.value);
         this.toggleTitle(this.disableTitle);
       }
@@ -67,7 +69,7 @@ export default {
     },
     value(value) {
       if (this.editor) {
-        this.setEditorValue(value);
+        this.setEditorValue(value); // prop changes value
       }
     },
     disableCollapse() {
@@ -92,8 +94,7 @@ export default {
     },
     setEditorValue(value) {
       const { editor } = this;
-      const form = editor.getValue();
-      const assigned = helper.cloneAndAssign(form, value);
+      const assigned = helper.cloneAndAssign(this.editorOriginalValue, value);
       const errors = editor.validate(assigned);
 
       if (errors.length) {
