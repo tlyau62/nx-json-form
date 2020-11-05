@@ -40,7 +40,7 @@ export default {
     };
   },
   mounted() {
-    if (Object.keys(this.schema).length === 0) {
+    if (!this.schema || Object.keys(this.schema).length === 0) {
       return;
     }
 

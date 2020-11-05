@@ -43,7 +43,7 @@ export default {
   },
   data() {
     return {
-      schema: {},
+      schema: null,
       form: {},
       disableCollapse: true,
       disableEditJson: true,
