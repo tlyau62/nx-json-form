@@ -43,8 +43,17 @@ export default {
   },
   data() {
     return {
-      schema: null,
-      form: {},
+      schema: {
+        type: "object",
+        properties: {
+          name: {
+            type: "string",
+            description: "First and Last name",
+            default: "Jeremy Dorn",
+          },
+        },
+      },
+      form: { name: "John" },
       disableCollapse: true,
       disableEditJson: true,
       disableProperties: true,
