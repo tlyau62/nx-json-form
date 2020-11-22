@@ -57,7 +57,10 @@ export default {
     editor(editor) {
       if (this.editor) {
         this.editor.on("change", () => {
-          this.$emit("input", this.editor.getValue()); // field changes value
+          const value = this.editor.getValue();
+
+          this.validate(value);
+          this.$emit("input", value); // field changes value
         });
         this.editorOriginalValue = this.editor.getValue();
         this.setEditorValue(this.value);
@@ -95,13 +98,18 @@ export default {
     setEditorValue(value) {
       const { editor } = this;
       const assigned = helper.cloneAndAssign(this.editorOriginalValue, value);
-      const errors = editor.validate(assigned);
+      const errors = this.validate(assigned);
 
-      if (errors.length) {
-        throw new Error("Validation fail: " + JSON.stringify(errors));
+      if (!errors.length) {
+        editor.setValue(assigned);
       }
+    },
+    validate(value) {
+      const errors = this.editor.validate(value);
 
-      editor.setValue(assigned);
+      this.$parent.$emit("validation", errors);
+
+      return errors;
     },
   },
   beforeDestroy() {

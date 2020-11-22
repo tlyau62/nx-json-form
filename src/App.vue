@@ -5,10 +5,14 @@
       <div>
         {{ form }}
       </div>
+      <div>
+        {{ valid }}
+      </div>
     </div>
 
     <NxJsonForm
       :schema="schema"
+      @validation="valid = $event"
       v-model="form"
       :disable-collapse="disableCollapse"
       :disable-edit-json="disableEditJson"
@@ -45,11 +49,13 @@ export default {
     return {
       schema: {
         type: "object",
+        required: ["name"],
         properties: {
           name: {
             type: "string",
             description: "First and Last name",
             default: "Jeremy Dorn",
+            minLength: 1,
           },
         },
       },
@@ -58,6 +64,7 @@ export default {
       disableEditJson: true,
       disableProperties: true,
       disableTitle: false,
+      valid: [],
     };
   },
   methods: {
