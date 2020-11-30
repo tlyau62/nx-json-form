@@ -71,7 +71,7 @@ export default {
           });
 
           this.cachedValue = value;
-          // this.validate(value);
+          this.validate(value);
           this.$emit("input", value); // field changes value
         });
         this.editorOriginalValue = this.getDefaultValue();
@@ -121,11 +121,25 @@ export default {
       }
     },
     validate(value) {
-      const errors = this.editor.validate(value);
+      const { editor } = this;
+      const errors = editor.validate(value);
 
-      this.$parent.$emit("validation", errors);
+      // handling a special case on skipping validation on enum null option
+      const filtered = errors.filter((error) => {
+        if (
+          error.message === "Value must be one of the enumerated values" &&
+          error.property === "enum" &&
+          editor.getEditor(error.path).types.includes("null")
+        ) {
+          return false;
+        }
 
-      return errors;
+        return true;
+      });
+
+      this.$parent.$emit("validation", filtered);
+
+      return filtered;
     },
     getDefaultValue(schema) {
       const valueEditor = new JSONEditor($("<div></div>")[0], {

@@ -23,8 +23,10 @@
 
     <button @click="setSchemaA">Schema A</button>
     <button @click="setSchemaB">Schema B</button>
+    <button @click="setSchemaC">Schema C</button>
     <button @click="setSchemaAValue">Schema A Value</button>
     <button @click="setSchemaBValue">Schema B Value</button>
+    <button @click="setSchemaCValue">Schema C Value</button>
     <button @click="disableCollapse = !disableCollapse">
       Toggle disableCollapse
     </button>
@@ -51,6 +53,7 @@ export default {
       schema: {
         type: "object",
         title: "Car",
+        required: ["make"],
         properties: {
           make: {
             type: "string",
@@ -81,6 +84,9 @@ export default {
         location: {},
         pets: [{ type: "cat", name: "Walter" }],
       };
+    },
+    setSchemaCValue() {
+      this.form = {};
     },
     setSchemaA() {
       this.schema = {
@@ -196,6 +202,18 @@ export default {
             type: ["string", "null"],
             format: "color",
             title: "favorite color",
+          },
+        },
+      };
+    },
+    setSchemaC() {
+      this.schema = {
+        type: "object",
+        title: "Car",
+        properties: {
+          make: {
+            type: ["null", "string"],
+            enum: ["Toyota", "BMW"],
           },
         },
       };
