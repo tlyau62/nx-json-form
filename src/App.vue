@@ -18,6 +18,7 @@
       :disable-edit-json="disableEditJson"
       :disable-properties="disableProperties"
       :disable-title="disableTitle"
+      :show-opt-in="showOptIn"
     />
 
     <button @click="setSchemaA">Schema A</button>
@@ -49,21 +50,20 @@ export default {
     return {
       schema: {
         type: "object",
-        required: ["name"],
+        title: "Car",
         properties: {
-          name: {
+          make: {
             type: "string",
-            description: "First and Last name",
-            default: "Jeremy Dorn",
-            minLength: 1,
+            enum: ["Toyota", "BMW"],
           },
         },
       },
-      form: { name: "John" },
+      form: {},
       disableCollapse: true,
       disableEditJson: true,
       disableProperties: true,
       disableTitle: false,
+      showOptIn: true,
       valid: [],
     };
   },

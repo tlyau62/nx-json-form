@@ -32,6 +32,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    showOptIn: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -51,6 +55,7 @@ export default {
       disable_edit_json: this.disableEditJson,
       disable_properties: this.disableProperties,
       disable_title: this.disableTitle,
+      show_opt_in: this.showOptIn,
     });
   },
   watch: {
