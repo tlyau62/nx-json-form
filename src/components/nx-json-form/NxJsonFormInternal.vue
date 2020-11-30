@@ -41,6 +41,7 @@ export default {
     return {
       editor: null,
       editorOriginalValue: {},
+      cachedValue: {},
     };
   },
   mounted() {
@@ -62,12 +63,18 @@ export default {
     editor(editor) {
       if (this.editor) {
         this.editor.on("change", () => {
-          const value = this.editor.getValue();
+          const rawValue = this.editor.getValue();
+          const value = _.cloneDeepWith(rawValue, (v) => {
+            if (v === undefined) {
+              return null;
+            }
+          });
 
-          this.validate(value);
+          this.cachedValue = value;
+          // this.validate(value);
           this.$emit("input", value); // field changes value
         });
-        this.editorOriginalValue = this.editor.getValue();
+        this.editorOriginalValue = this.getDefaultValue();
         this.setEditorValue(this.value);
         this.toggleTitle(this.disableTitle);
       }
@@ -101,6 +108,10 @@ export default {
         [val ? "hide" : "show"]();
     },
     setEditorValue(value) {
+      if (value === this.cachedValue) {
+        return;
+      }
+
       const { editor } = this;
       const assigned = helper.cloneAndAssign(this.editorOriginalValue, value);
       const errors = this.validate(assigned);
@@ -115,6 +126,17 @@ export default {
       this.$parent.$emit("validation", errors);
 
       return errors;
+    },
+    getDefaultValue(schema) {
+      const valueEditor = new JSONEditor($("<div></div>")[0], {
+        schema: this.schema,
+        required_by_default: true,
+      });
+      const value = valueEditor.getValue();
+
+      valueEditor.destroy();
+
+      return value;
     },
   },
   beforeDestroy() {
