@@ -75,6 +75,7 @@ export default {
           this.$emit("input", value); // field changes value
         });
         this.editorOriginalValue = this.getDefaultValue();
+        this.activateEditors();
         this.setEditorValue(this.value);
         this.toggleTitle(this.disableTitle);
       }
@@ -151,6 +152,15 @@ export default {
       valueEditor.destroy();
 
       return value;
+    },
+    activateEditors() {
+      const { editor } = this;
+
+      for (const key in editor.editors) {
+        if (key !== "root") {
+          editor.getEditor(key).activate();
+        }
+      }
     },
   },
   beforeDestroy() {
