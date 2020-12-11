@@ -24,6 +24,7 @@
     <button @click="setSchemaA">Schema A</button>
     <button @click="setSchemaB">Schema B</button>
     <button @click="setSchemaC">Schema C</button>
+    <button @click="setSchemaD">Schema D</button>
     <button @click="setSchemaAValue">Schema A Value</button>
     <button @click="setSchemaBValue">Schema B Value</button>
     <button @click="setSchemaCValue">Schema C Value</button>
@@ -216,6 +217,101 @@ export default {
             enum: ["Toyota", "BMW"],
           },
         },
+      };
+    },
+    setSchemaD() {
+      const regions = [
+        {
+          value: "CustomPage",
+          label: "Custom Page",
+        },
+        {
+          value: "Widget",
+          label: "Widget",
+        },
+        {
+          value: "BrowseFolder",
+          label: "Browse Folder",
+        },
+        {
+          value: "ViewPropertyValues",
+          label: "View Property Values",
+        },
+        {
+          value: "EditPropertyValues",
+          label: "Edit Property Values",
+        },
+        {
+          value: "SearchPropertyValues",
+          label: "Search Property Values",
+        },
+      ];
+
+      this.schema = {
+        type: "object",
+        properties: {
+          Name: {
+            type: "string",
+          },
+          Region: {
+            type: "string",
+            enum: regions.map((r) => r.value),
+            options: {
+              enum_titles: regions.map((r) => r.label),
+            },
+          },
+          ViewType: {
+            type: "string",
+            enum: ["vue", "vue-compiled", "html", "razor"],
+          },
+          SourcePath: {
+            type: "string",
+            default: "",
+          },
+          DataProvider: {
+            type: "string",
+            enum: ["DummyTileDataProvider"],
+            options: {
+              dependencies: {
+                ViewType: "razor",
+              },
+            },
+          },
+          ConfigJsonSchema: {
+            type: "string",
+            format: "json",
+            options: {
+              ace: {
+                tabSize: 2,
+                useSoftTabs: true,
+                wrap: true,
+              },
+            },
+            default: JSON.stringify({
+              type: "object",
+              properties: {
+                number: { type: "number" },
+                street_name: { type: "string" },
+                street_type: {
+                  type: "string",
+                  enum: ["Street", "Avenue", "Boulevard"],
+                },
+              },
+            }),
+          },
+          ConfigUIOptions: {
+            type: "string",
+            format: "json",
+            options: {
+              ace: {
+                tabSize: 2,
+                useSoftTabs: true,
+                wrap: true,
+              },
+            },
+          },
+        },
+        required: ["Name", "Region", "ViewType", "SourcePath"],
       };
     },
   },

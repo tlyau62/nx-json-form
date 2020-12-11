@@ -127,10 +127,13 @@ export default {
 
       // handling a special case on skipping validation on enum null option
       const filtered = errors.filter((error) => {
+        const types = editor.getEditor(error.path).types;
+
         if (
           error.message === "Value must be one of the enumerated values" &&
           error.property === "enum" &&
-          editor.getEditor(error.path).types.includes("null")
+          types &&
+          types.includes("null")
         ) {
           return false;
         }
