@@ -1,6 +1,6 @@
 {
   "name": "nx-json-form",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "main": "./dist/nx-json-form.umd.min.js",
   "scripts": {
     "serve": "vue-cli-service serve",
